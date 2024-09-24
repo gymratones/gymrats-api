@@ -28,8 +28,8 @@ jobs:
     - run: npm test
     - name: Install Railway
       run: npm i -g @railway/cli
-    - name: Deploy
-      run: railway up
-      env:
-        RAILWAY_TOKEN: ${{ secrets.GYMRATS_API_RAILWAY_DEPLOY_TOKEN }}
+    # - name: Deploy
+    #   run: railway up
+    #   env:
+    #     RAILWAY_TOKEN: ${{ secrets.GYMRATS_API_RAILWAY_DEPLOY_TOKEN }}
 
