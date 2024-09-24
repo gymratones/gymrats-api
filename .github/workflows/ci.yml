@@ -40,6 +40,4 @@ jobs:
       run: |
         DEPLOYMENT_INFO=$(curl -s -H "Authorization: Bearer $RAILWAY_API_TOKEN" https://railway.app/api/v1/projects/$RAILWAY_API_PROJECT_ID/deployments)
         DEPLOYMENT_URL=$(echo $DEPLOYMENT_INFO | jq -r '.latest.deployment.url')
-        echo "DEPLOYMENT_URL=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
-    - name: Notify deployment
-      run: echo "App deployed into: ${{ steps.get_url.outputs.DEPLOYMENT_URL }}"
+        echo "Deployment URL: $DEPLOYMENT_URL"
