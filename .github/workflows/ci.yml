@@ -29,7 +29,7 @@ jobs:
     - name: Install Railway
       run: npm i -g @railway/cli
     - name: Deploy
-      run: railway up
+      run: railway up --service gymrats-api
       env:
         RAILWAY_TOKEN: ${{ secrets.GYMRATS_API_RAILWAY_DEPLOY_TOKEN }}
     - name: Get Deployment URL
