@@ -17,6 +17,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    environment: ${{ github.head_ref || github.ref_name }}
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js 16
@@ -29,6 +30,6 @@ jobs:
     - name: Install Railway
       run: npm i -g @railway/cli
     - name: Deploy
-      run: RAILWAY_TOKEN=$RAILWAY_TOKEN railway up
+      run: railway up
       env:
         RAILWAY_TOKEN: ${{ secrets.GYMRATS_API_RAILWAY_DEPLOY_TOKEN }}
