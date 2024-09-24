@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - staging
-      - '7-check-deployment-solutions-and-implement-one' # For test, remove after
 
 jobs:
   hello-ci:
