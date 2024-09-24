@@ -14,7 +14,6 @@ jobs:
         uses: actions/checkout@v2
       - name: Say Hello CI!
         run: echo "Hello CI!"
-
   deploy:
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name }}
@@ -34,6 +33,7 @@ jobs:
       env:
         RAILWAY_TOKEN: ${{ secrets.GYMRATS_API_RAILWAY_DEPLOY_TOKEN }}
     - name: Get Deployment URL
+      id: get_url
       env:
         RAILWAY_API_PROJECT_ID: ${{ secrets.GYMRATS_API_RAILWAY_PROJECT_ID }}
         RAILWAY_API_TOKEN: ${{ secrets.GYMRATS_API_RAILWAY_DEPLOY_TOKEN }}
@@ -43,4 +43,4 @@ jobs:
         echo "Deployment URL: $DEPLOYMENT_URL"
         echo "::set-output name=DEPLOYMENT_URL::$DEPLOYMENT_URL"
     - name: Notify deployment
-      run: echo "App deployed into: ${{ steps.deploy.outputs.DEPLOYMENT_URL }}"
+      run: echo "App deployed into: ${{ steps.get_url.outputs.DEPLOYMENT_URL }}"
