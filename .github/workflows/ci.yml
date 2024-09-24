@@ -33,3 +33,14 @@ jobs:
       run: railway up
       env:
         RAILWAY_TOKEN: ${{ secrets.GYMRATS_API_RAILWAY_DEPLOY_TOKEN }}
+    - name: Get Deployment URL
+      env:
+        RAILWAY_API_PROJECT_ID: ${{ secrets.GYMRATS_API_RAILWAY_PROJECT_ID }}
+        RAILWAY_API_TOKEN: ${{ secrets.GYMRATS_API_RAILWAY_DEPLOY_TOKEN }}
+      run: |
+        DEPLOYMENT_INFO=$(curl -s -H "Authorization: Bearer $RAILWAY_API_TOKEN" https://railway.app/api/v1/projects/$RAILWAY_API_PROJECT_ID/deployments)
+        DEPLOYMENT_URL=$(echo $DEPLOYMENT_INFO | jq -r '.latest.deployment.url')
+        echo "Deployment URL: $DEPLOYMENT_URL"
+        echo "::set-output name=DEPLOYMENT_URL::$DEPLOYMENT_URL"
+    - name: Notify deployment
+      run: echo "App deployed into: ${{ steps.deploy.outputs.DEPLOYMENT_URL }}"
