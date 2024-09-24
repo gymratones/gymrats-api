@@ -1,1 +1,0 @@
-# gymrats-api
