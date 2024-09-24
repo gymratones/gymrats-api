@@ -1,0 +1,17 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - staging
+      - '7-check-deployment-solutions-and-implement-one' # For test, remove after
+
+jobs:
+  hello-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Say Hello CI!
+        run: echo "Hello CI!"
