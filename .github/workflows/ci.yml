@@ -4,16 +4,15 @@ on:
   push:
     branches:
       - staging
-      - 11-split-railway-secrets
 
 jobs:
-  hello-ci:
+  init:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Say Hello CI!
-        run: echo "Hello CI!"
+      - name: Post init message
+        run: echo "Pipeline initialized"
   deploy:
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name }}
