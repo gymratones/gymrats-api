@@ -1,16 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { UsersService } from '../users/users.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
-    constructor(private jwtService: JwtService) { }
+    constructor(
+        private usersService: UsersService,
+        private jwtService: JwtService
+    ) { }
 
     async validateUser(email: string, password: string): Promise<any> {
-        // Aquí deberías implementar la lógica para validar el usuario contra tu base de datos
-        // Este es solo un ejemplo
-        const user = { id: 1, email: 'user@example.com', password: 'password' };
-
-        if (user && user.password === password) {
+        const user = await this.usersService.findOne(email);
+        if (user && await bcrypt.compare(password, user.password)) {
             const { password, ...result } = user;
             return result;
         }
@@ -28,9 +30,7 @@ export class AuthService {
         if (!req.user) {
             return 'No user from google';
         }
-        return {
-            message: 'User information from google',
-            user: req.user,
-        };
+        const user = await this.usersService.findOrCreateByGoogle(req.user);
+        return this.login(user);
     }
 }
