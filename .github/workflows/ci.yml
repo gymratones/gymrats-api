@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - staging
+      - 11-split-railway-secrets
 
 jobs:
   hello-ci:
@@ -30,5 +31,5 @@ jobs:
     - name: Deploy
       run: railway up --service $RAILWAY_SERVICE_NAME
       env:
-        RAILWAY_SERVICE_NAME: ${{ secrets.GYMRATS_API_RAILWAY_SERVICE_NAME }}
-        RAILWAY_TOKEN: ${{ secrets.GYMRATS_API_RAILWAY_DEPLOY_TOKEN }}
+        RAILWAY_SERVICE_NAME: ${{ secrets.GYMRATS_STAGING_API_RAILWAY_SERVICE_NAME }}
+        RAILWAY_TOKEN: ${{ secrets.GYMRATS_STAGING_API_RAILWAY_DEPLOY_TOKEN }}
