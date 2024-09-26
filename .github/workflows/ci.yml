@@ -6,14 +6,15 @@ on:
       - staging
 
 jobs:
-  hello-ci:
+  init:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Say Hello CI!
-        run: echo "Hello CI!"
+      - name: Post init message
+        run: echo "Pipeline initialized."
   deploy:
+    needs: init
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name }}
     steps:
@@ -27,8 +28,8 @@ jobs:
     - run: npm test
     - name: Install Railway
       run: npm i -g @railway/cli
-    - name: Deploy
+    - name: Deploy to Railway
       run: railway up --service $RAILWAY_SERVICE_NAME
       env:
-        RAILWAY_SERVICE_NAME: ${{ secrets.GYMRATS_API_RAILWAY_SERVICE_NAME }}
-        RAILWAY_TOKEN: ${{ secrets.GYMRATS_API_RAILWAY_DEPLOY_TOKEN }}
+        RAILWAY_SERVICE_NAME: ${{ secrets.GYMRATS_STAGING_API_RAILWAY_SERVICE_NAME }}
+        RAILWAY_TOKEN: ${{ secrets.GYMRATS_STAGING_API_RAILWAY_DEPLOY_TOKEN }}
