@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  init:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Post init message
+        run: echo "Pipeline initialized."
+  deploy:
+    needs: init
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js 16
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'npm'
+    - run: npm install
+    - run: npm test
+    - name: Install Railway
+      run: npm i -g @railway/cli
+    - name: Deploy to Railway
+      run: railway up --service $RAILWAY_SERVICE_NAME
+      env:
+        RAILWAY_SERVICE_NAME: ${{ secrets.GYMRATS_STAGING_API_RAILWAY_SERVICE_NAME }}
+        RAILWAY_TOKEN: ${{ secrets.GYMRATS_STAGING_API_RAILWAY_DEPLOY_TOKEN }}
