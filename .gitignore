@@ -34,4 +34,11 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# Terraform
+tf/.terraform/
+tf/*.terraform.*
+tf/*.tfstate
+tf/*.tfstate.*
+
+# ENV
 .env
