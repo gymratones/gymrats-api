@@ -41,11 +41,11 @@ jobs:
         provider_account_id = "${{ secrets.GYMRATS_STAGING_PROVIDER_ACCOUNT_ID }}"
         github_repository = "${{ github.repository }}"
         branch_name = "${{ github.head_ref || github.ref_name }}"
-        db_host = "mysql.railway.internal"
-        db_port = "3306"
-        db_username = "root"
-        db_password = "LIkelYklwEGZIHNdrPbdFgrAQtNKddFG"
-        db_database = "railway"
+        db_host = "${{ secrets.GYMRATS_STAGING_DB_HOST }}"
+        db_port = "${{ secrets.GYMRATS_STAGING_DB_PORT }}"
+        db_username = "${{ secrets.GYMRATS_STAGING_DB_USERNAME }}"
+        db_password = "${{ secrets.GYMRATS_STAGING_DB_PASSWORD }}"
+        db_database = "${{ secrets.GYMRATS_STAGING_DB_DATABASE }}"
         node_env = "staging"
         EOF
     - name: Terraform Plan
