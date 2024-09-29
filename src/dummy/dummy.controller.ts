@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
 import { DummyService } from './dummy.service';
 import { Dummy } from './dummy.entity';
-import { CreateDummyDto } from './create-dummy.dto';
+import { CreateDummyDto } from 'src/dto/create-dummy.dto';
 
 @Controller('dummy')
 export class DummyController {
@@ -14,7 +14,7 @@ export class DummyController {
 
     @Post()
     async createDummy(@Body() body: CreateDummyDto) {
-        const dummy = await this.dummyService.createDummy(body.name)
+        const dummy: Dummy = await this.dummyService.createDummy(body.name)
         return dummy
     }
 }

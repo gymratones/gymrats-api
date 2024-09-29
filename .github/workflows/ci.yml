@@ -13,23 +13,43 @@ jobs:
         uses: actions/checkout@v2
       - name: Post init message
         run: echo "Pipeline initialized."
-  deploy:
+  terraform-deploy:
     needs: init
     runs-on: ubuntu-latest
-    environment: ${{ github.ref_name }}
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js 16
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
-        cache: 'npm'
-    - run: npm install
-    - run: npm test
-    - name: Install Railway
-      run: npm i -g @railway/cli
-    - name: Deploy to Railway
-      run: railway up --service $RAILWAY_SERVICE_NAME
-      env:
-        RAILWAY_SERVICE_NAME: ${{ secrets.GYMRATS_STAGING_API_RAILWAY_SERVICE_NAME }}
-        RAILWAY_TOKEN: ${{ secrets.GYMRATS_STAGING_API_RAILWAY_DEPLOY_TOKEN }}
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Set up Terraform credentials file
+      run: |
+        cat << EOF > $HOME/.terraformrc
+        credentials "app.terraform.io" {
+          token = "${{ secrets.GYMRATS_TERRAFORM_USER_TOKEN }}"
+        }
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v3
+    - name: Terraform Init
+      run: terraform init
+      working-directory: ./tf
+    - name: Select (or Create) Terraform Workspace
+      run: terraform workspace select -or-create=true ${{ github.head_ref || github.ref_name }}
+      working-directory: ./tf
+    - name: Create variables.auto.tfvars
+      run:  |
+        cat << EOF > ./tf/variables.auto.tfvars
+        provider_token = "${{ secrets.GYMRATS_STAGING_PROVIDER_TOKEN }}"
+        provider_account_id = "${{ secrets.GYMRATS_STAGING_PROVIDER_ACCOUNT_ID }}"
+        github_repository = "${{ github.repository }}"
+        branch_name = "${{ github.head_ref || github.ref_name }}"
+        db_host = "${{ secrets.GYMRATS_STAGING_DB_HOST }}"
+        db_port = "${{ secrets.GYMRATS_STAGING_DB_PORT }}"
+        db_username = "${{ secrets.GYMRATS_STAGING_DB_USERNAME }}"
+        db_password = "${{ secrets.GYMRATS_STAGING_DB_PASSWORD }}"
+        db_database = "${{ secrets.GYMRATS_STAGING_DB_DATABASE }}"
+        node_env = "staging"
+        EOF
+    - name: Terraform Plan
+      run: terraform plan
+      working-directory: ./tf
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
+      working-directory: ./tf
