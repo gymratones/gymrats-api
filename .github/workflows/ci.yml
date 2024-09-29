@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - staging
-      - tf-api #TO BE DELETED
 
 jobs:
   init:
