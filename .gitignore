@@ -39,6 +39,7 @@ tf/.terraform/
 tf/*.terraform.*
 tf/*.tfstate
 tf/*.tfstate.*
+tf/variables.auto.tfvars
 
 # ENV
 .env
