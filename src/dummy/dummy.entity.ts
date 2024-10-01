@@ -6,5 +6,5 @@ export class Dummy {
     id: number;
 
     @Column()
-    name: string;
+    test: string;
 }
