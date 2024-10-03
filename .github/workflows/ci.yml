@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
     - name: Set up Terraform credentials file
       run: |
         cat << EOF > $HOME/.terraformrc
@@ -28,8 +28,7 @@ jobs:
     - name: Set up Terraform
       uses: hashicorp/setup-terraform@v3
     - name: Terraform Create terraform.tfstate
-      run: terraform init
-      continue-on-error: true
+      run: (terraform init & pid=$!; sleep 1; kill -SIGINT $pid) > /dev/null 2>&1
       working-directory: ./tf
     - name: Select (or Create) Terraform Workspace
       run: terraform workspace select -or-create=true ${{ github.head_ref || github.ref_name }}

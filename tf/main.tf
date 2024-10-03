@@ -24,7 +24,7 @@ resource "render_web_service" "gymrats_api_service" {
   name           = local.project_name
   plan           = "starter"
   region         = "frankfurt"
-  start_command  = "npm start"
+  start_command  = "npm run migration:run && npm run start"
 
   runtime_source = {
     native_runtime = {

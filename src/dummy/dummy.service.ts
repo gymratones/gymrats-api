@@ -9,20 +9,20 @@ export class DummyService {
         @InjectRepository(Dummy)
         private dummyRepository: Repository<Dummy>,
     ) { }
-    public createDummy(name: string) {
-        let dummy: Dummy = this.dummyRepository.create({ name })
-        this.dummyRepository.save(dummy)
-        return dummy
+    public createDummy(test: string) {
+        let dummy: Dummy = this.dummyRepository.create({ test });
+        this.dummyRepository.save(dummy);
+        return dummy;
     }
     public async getDummy(dummyId: string) {
         if (!dummyId) {
-            return null
+            return null;
         }
-        let id = Number(dummyId)
-        const dummy = await this.dummyRepository.findOne({ where: { id } })
+        let id = Number(dummyId);
+        const dummy = await this.dummyRepository.findOne({ where: { id } });
         if (!dummy) {
-            throw new NotFoundException("Dummy no encontrado")
+            throw new NotFoundException('Dummy no encontrado');
         }
-        return dummy
+        return dummy;
     }
 }
