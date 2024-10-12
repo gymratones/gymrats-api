@@ -4,10 +4,10 @@ import { User } from './user.entity';
 @Entity()
 @Check('"user_id" != "follower_user_id"')
 export class Follow {
-    @PrimaryColumn()
+    @PrimaryColumn({ name: 'user_id' })
     user_id: number;
 
-    @PrimaryColumn()
+    @PrimaryColumn({ name: 'follower_user_id' })
     follower_user_id: number;
 
     @ManyToOne(() => User, user => user.followers)
@@ -15,9 +15,9 @@ export class Follow {
     user: User;
 
     @ManyToOne(() => User, user => user.following)
-    @JoinColumn({ name: "follower_user_id" }) relación
+    @JoinColumn({ name: "follower_user_id" })
     followerUser: User;
 
-    @CreateDateColumn()
+    @CreateDateColumn({ name: 'created_at' })
     created_at: Date;
 }

@@ -9,25 +9,25 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ length: 45 })
+    @Column({ name: 'first_name', length: 45 })
     firstName: string;
 
-    @Column({ length: 45 })
+    @Column({ name: 'last_name', length: 45 })
     lastName: string;
 
-    @Column({ length: 45, unique: true })
+    @Column({ name: 'username', length: 45, unique: true })
     username: string;
 
-    @Column({ length: 45, unique: true })
+    @Column({ name: 'email', length: 45, unique: true })
     email: string;
 
-    @Column({ length: 45 })
+    @Column({ name: 'password', length: 45 })
     password: string;
 
-    @Column({ type: 'bigint', nullable: true })
+    @Column({ name: 'phone', type: 'bigint', nullable: true })
     phone: number;
 
-    @Column({ default: false })
+    @Column({ name: 'verified', default: false })
     verified: boolean;
 
     @OneToMany(() => Follow, follow => follow.user)
@@ -43,6 +43,16 @@ export class User {
     likes: Like[];
 
     @ManyToMany(() => Gym, (gym) => gym.users)
-    @JoinTable()
+    @JoinTable({
+        name: 'user_gyms',
+        joinColumn: {
+            name: 'user_id',
+            referencedColumnName: 'id'
+        },
+        inverseJoinColumn: {
+            name: 'gym_id',
+            referencedColumnName: 'id'
+        }
+    })
     gyms: Gym[];
 }

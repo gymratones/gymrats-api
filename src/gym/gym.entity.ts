@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinColumn } from 'typeorm';
 import { User } from '../user/user.entity';
 import { GymType } from './gymtype.entity';
 
@@ -7,22 +7,23 @@ export class Gym {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({ name: 'google_maps_id' })
     google_maps_id: number;
 
-    @Column({ length: 45 })
+    @Column({ name: 'name', length: 45 })
     name: string;
 
-    @Column('double')
+    @Column({ name: 'latitude', type: 'double' })
     latitude: number;
 
-    @Column('double')
+    @Column({ name: 'longitude', type: 'double' })
     longitude: number;
 
-    @Column('boolean')
+    @Column({ name: 'active', type: 'boolean' })
     active: boolean;
 
     @ManyToOne(() => GymType, (gymType) => gymType.gyms)
+    @JoinColumn({ name: "gym_type_id" })
     gymType: GymType;
 
     @ManyToMany(() => User, (user) => user.gyms)

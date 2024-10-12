@@ -1,13 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Gym } from './gym.entity';
-import { OneToMany } from 'typeorm';
 
 @Entity()
 export class GymType {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ length: 45 })
+    @Column({ name: 'name', length: 45 })
     name: string;
 
     @OneToMany(() => Gym, (gym) => gym.gymType)
