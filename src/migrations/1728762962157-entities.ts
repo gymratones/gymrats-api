@@ -9,7 +9,13 @@ export class Entities1728762962157 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE \`gym_type\` (\`id\` int NOT NULL AUTO_INCREMENT, \`name\` varchar(45) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`gym\` (\`id\` int NOT NULL AUTO_INCREMENT, \`google_maps_id\` int NOT NULL, \`name\` varchar(45) NOT NULL, \`latitude\` double NOT NULL, \`longitude\` double NOT NULL, \`active\` tinyint NOT NULL, \`gym_type_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`user\` (\`id\` int NOT NULL AUTO_INCREMENT, \`first_name\` varchar(45) NOT NULL, \`last_name\` varchar(45) NOT NULL, \`username\` varchar(45) NOT NULL, \`email\` varchar(45) NOT NULL, \`password\` varchar(45) NOT NULL, \`phone\` bigint NULL, \`verified\` tinyint NOT NULL DEFAULT 0, UNIQUE INDEX \`IDX_78a916df40e02a9deb1c4b75ed\` (\`username\`), UNIQUE INDEX \`IDX_e12875dfb3b1d92d7d7c5377e2\` (\`email\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`follow\` (\`user_id\` int NOT NULL, \`follower_user_id\` int NOT NULL, \`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), PRIMARY KEY (\`user_id\`, \`follower_user_id\`)) ENGINE=InnoDB`);
+        await queryRunner.query(`CREATE TABLE \`follow\` (
+        \`user_id\` int NOT NULL, 
+        \`follower_user_id\` int NOT NULL, 
+        \`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), 
+        PRIMARY KEY (\`user_id\`, \`follower_user_id\`), 
+        CONSTRAINT \`check_user_id_follower_user_id\` CHECK (\`user_id\` != \`follower_user_id\`)
+        ) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`user_gyms\` (\`user_id\` int NOT NULL, \`gym_id\` int NOT NULL, INDEX \`IDX_5d718bacb6e9d4f0d3a19aa5cf\` (\`user_id\`), INDEX \`IDX_0c32062e241434286a68e10087\` (\`gym_id\`), PRIMARY KEY (\`user_id\`, \`gym_id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`ALTER TABLE \`like\` ADD CONSTRAINT \`FK_d41caa70371e578e2a4791a88ae\` FOREIGN KEY (\`post_id\`) REFERENCES \`post\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`like\` ADD CONSTRAINT \`FK_4356ac2f9519c7404a2869f1691\` FOREIGN KEY (\`user_id\`) REFERENCES \`user\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
