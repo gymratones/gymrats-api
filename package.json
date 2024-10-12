@@ -39,6 +39,7 @@
     "mysql2": "^3.11.3",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
+    "passport-google-token": "^0.1.2",
     "passport-local": "^1.0.0",
     "passport-oauth2": "^1.8.0",
     "reflect-metadata": "^0.1.13",
