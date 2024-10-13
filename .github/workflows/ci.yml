@@ -49,6 +49,7 @@ jobs:
         db_password = "${{ secrets.GYMRATS_STAGING_DB_PASSWORD }}"
         db_database = "${{ secrets.GYMRATS_STAGING_DB_DATABASE }}"
         node_env = "staging"
+        jwt_secret = "${{ secrets.GYMRATS_STAGING_JWT_SECRET }}"
         EOF
     - name: Terraform Plan
       run: terraform plan

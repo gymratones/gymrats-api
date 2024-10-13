@@ -47,3 +47,8 @@ variable "node_env" {
   type        = string
   description = "Node environment"
 }
+
+variable "jwt_secret" {
+  type        = string
+  description = "JWT Secret"
+}

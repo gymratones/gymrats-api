@@ -55,9 +55,12 @@ resource "render_web_service" "gymrats_api_service" {
     },
     "DB_DATABASE" = {
       value = var.db_database
-    }
+    },
     "NODE_ENV" = {
       value = var.node_env
     },
+    "JWT_SECRET" = {
+      value = var.jwt_secret
+    }
   }
 }
