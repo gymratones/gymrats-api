@@ -7,7 +7,6 @@ export class AuthController {
     constructor(private authService: AuthService) { }
 
     @Post('login')
-    @UseGuards(AuthGuard('google-token'))
     async googleTokenAuth(@Req() req) {
         return this.authService.login(req.body.data.user);
     }
