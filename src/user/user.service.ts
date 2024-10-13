@@ -22,13 +22,15 @@ export class UserService {
                 profilePicture: oauthUserData.profilePicture,
                 authProvider: provider,
                 accessToken: oauthUserData.accessToken,
+                username: 'Antoniomerino69'
             });
         } else {
             user.email = oauthUserData.email || user.email;
-            user.firstName = oauthUserData.firstName || user.firstName;
-            user.lastName = oauthUserData.lastName || user.lastName;
-            user.profilePicture = oauthUserData.profilePicture || user.profilePicture;
+            user.firstName = oauthUserData.givenName || user.firstName;
+            user.lastName = oauthUserData.familyName || user.lastName;
+            user.profilePicture = oauthUserData.photo || user.profilePicture;
             user.accessToken = oauthUserData.accessToken || user.accessToken;
+            user.username = 'actualizado'
         }
 
         return await this.userRepository.save(user);

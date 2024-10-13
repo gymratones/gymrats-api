@@ -13,10 +13,10 @@ export class AuthService {
         const user = await this.userService.findOrCreateUser({
             oauthId: googleUser.id,
             email: googleUser.email,
-            firstName: googleUser.firstName,
-            lastName: googleUser.lastName,
-            profilePicture: googleUser.picture,
-            accessToken: googleUser.accessToken
+            firstName: googleUser.givenName,
+            lastName: googleUser.familyName,
+            profilePicture: googleUser.photo,
+            accessToken: googleUser.idToken
         }, 'google');
 
         const payload = { email: user.email, sub: user.id };

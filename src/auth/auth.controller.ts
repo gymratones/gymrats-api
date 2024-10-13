@@ -9,6 +9,6 @@ export class AuthController {
     @Post('login')
     @UseGuards(AuthGuard('google-token'))
     async googleTokenAuth(@Req() req) {
-        return this.authService.login(req.user);
+        return this.authService.login(req.body.data.user);
     }
 }
