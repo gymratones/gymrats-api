@@ -7,6 +7,8 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { UserService } from '../user/user.service';
 import { User } from '../user/user.entity';
+import { AuthGuard } from './guards/auth.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -16,13 +18,18 @@ import { User } from '../user/user.entity';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET'),
-        signOptions: { expiresIn: '1h' },
+        signOptions: { expiresIn: '15m' },
       }),
       inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([User]),
   ],
-  providers: [AuthService, UserService],
+  providers: [AuthService, UserService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    }
+  ],
   controllers: [AuthController],
 })
 export class AuthModule { }
